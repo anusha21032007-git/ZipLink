@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink, Globe, Sparkles } from 'lucide-react';
+import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink, Sparkles } from 'lucide-react';
 import { shortenUrl, ShortenedURL } from '@/services/api';
 import { toast } from 'sonner';
 
@@ -97,16 +97,16 @@ const ShortenForm = () => {
       <motion.div 
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.6)]"
+        className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.8)]"
       >
         {/* Glow border background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-indigo-500/20 opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-indigo-500/30 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
         
-        <div className="relative bg-[#060812]/90 backdrop-blur-3xl border border-white/10 rounded-[23px] p-6 md:p-8 space-y-6">
+        <div className="relative bg-[#090d22]/95 backdrop-blur-3xl border border-white/15 rounded-[23px] p-6 md:p-8 space-y-6">
           
           {/* Subtitle Integrated INSIDE the Card */}
-          <div className="text-center space-y-2 pb-2 border-b border-white/5">
-            <p className="text-white/60 text-xs md:text-sm font-light max-w-xl mx-auto leading-relaxed">
+          <div className="text-center space-y-2 pb-2 border-b border-white/10">
+            <p className="text-white/80 text-xs md:text-sm font-medium max-w-xl mx-auto leading-relaxed">
               Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
             </p>
           </div>
@@ -119,12 +119,12 @@ const ShortenForm = () => {
             <motion.div 
               animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}}
               transition={{ duration: 0.4 }}
-              className={`flex flex-col md:flex-row gap-2.5 p-1.5 bg-white/[0.02] border rounded-xl transition-all duration-300 ${
+              className={`flex flex-col md:flex-row gap-2.5 p-2 bg-white/[0.07] hover:bg-white/[0.09] focus-within:bg-white/[0.1] border rounded-xl transition-all duration-300 ${
                 errorMsg 
-                  ? 'border-red-500/40 focus-within:border-red-500' 
+                  ? 'border-red-500/60 focus-within:border-red-500' 
                   : !isInputEmpty 
-                    ? 'border-white/10 focus-within:border-blue-500/50' 
-                    : 'border-white/5'
+                    ? 'border-white/20 focus-within:border-blue-500/70 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]' 
+                    : 'border-white/15 focus-within:border-blue-500/50'
               }`}
             >
               <div className="flex-1 flex items-center px-3 gap-2.5">
@@ -137,12 +137,12 @@ const ShortenForm = () => {
                       exit={{ opacity: 0, scale: 0.8 }}
                       src={favicon} 
                       alt="favicon" 
-                      className="w-4.5 h-4.5 rounded bg-white/10 p-[2px]"
+                      className="w-5 h-5 rounded bg-white/20 p-[2px]"
                       onError={() => setFavicon(null)}
                     />
                   ) : (
                     <motion.div key="globe">
-                      <Link2 className="text-white/30 w-4 h-4" />
+                      <Link2 className="text-white/60 w-5 h-5" />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -155,17 +155,17 @@ const ShortenForm = () => {
                     if (errorMsg) setErrorMsg('');
                   }}
                   placeholder="Enter original link here..."
-                  className="w-full bg-transparent border-none outline-none text-white text-sm placeholder:text-white/20 py-2.5 font-light"
+                  className="w-full bg-transparent border-none outline-none text-white text-base placeholder:text-white/50 py-2.5 font-normal"
                 />
               </div>
 
               <button 
                 type="submit"
-                disabled={loading || isInputEmpty}
-                className={`px-6 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 relative overflow-hidden active:scale-[0.98] ${
+                disabled={loading}
+                className={`px-6 py-3 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 relative overflow-hidden active:scale-[0.98] ${
                   isInputEmpty 
-                    ? 'opacity-30 cursor-not-allowed' 
-                    : 'hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] hover:brightness-110'
+                    ? 'opacity-80 hover:opacity-100 cursor-pointer hover:shadow-[0_0_15px_rgba(99,102,241,0.3)]' 
+                    : 'hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer'
                 }`}
               >
                 {loading ? (
@@ -186,7 +186,7 @@ const ShortenForm = () => {
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
-                  className="text-red-400 text-[11px] font-light pl-2"
+                  className="text-red-400 text-xs font-medium pl-2"
                 >
                   {errorMsg}
                 </motion.p>
@@ -201,20 +201,20 @@ const ShortenForm = () => {
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className="mt-4 p-5 bg-white/[0.02] border border-white/10 rounded-2xl space-y-4"
+                className="mt-4 p-5 bg-white/[0.04] border border-white/15 rounded-2xl space-y-4"
               >
                 {/* Result Header */}
-                <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
+                    <Sparkles className="w-4 h-4 text-[#C5A059] animate-pulse" />
                     <span className="text-[10px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">ZipLink Ready</span>
                   </div>
                 </div>
 
                 {/* Highly Dominant Shortened URL Presentation */}
-                <div className="flex flex-col sm:flex-row items-center gap-3 justify-between bg-black/30 p-4 rounded-xl border border-white/5 hover:border-blue-500/20 transition-all duration-300">
+                <div className="flex flex-col sm:flex-row items-center gap-3 justify-between bg-black/40 p-4 rounded-xl border border-white/10 hover:border-blue-500/30 transition-all duration-300">
                   <div className="text-center sm:text-left space-y-0.5">
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-white/40 block">Destination Alias</span>
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-white/50 block">Destination Alias</span>
                     <a 
                       href={`/${result.shortCode}`}
                       target="_blank" 
@@ -249,7 +249,7 @@ const ShortenForm = () => {
                       href={`/${result.shortCode}`}
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center p-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white rounded-lg transition-all active:scale-[0.98]"
+                      className="flex items-center justify-center p-3 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-lg transition-all active:scale-[0.98]"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </a>
