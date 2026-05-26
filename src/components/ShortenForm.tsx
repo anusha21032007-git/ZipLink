@@ -209,12 +209,6 @@ const ShortenForm = () => {
                     <Sparkles className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
                     <span className="text-[10px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">ZipLink Ready</span>
                   </div>
-                  {favicon && (
-                    <div className="flex items-center gap-1.5 text-white/30 text-[10px] font-light">
-                      <img src={favicon} alt="Domain" className="w-3.5 h-3.5 rounded" />
-                      <span className="truncate max-w-[120px] italic">{result.originalUrl}</span>
-                    </div>
-                  )}
                 </div>
 
                 {/* Highly Dominant Shortened URL Presentation */}
