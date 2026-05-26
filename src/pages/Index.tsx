@@ -8,6 +8,8 @@ import ShortenForm from '@/components/ShortenForm';
 import { Zap, Shield, BarChart3 } from 'lucide-react';
 
 const Index = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <div className="h-screen w-full text-white font-sans selection:bg-blue-500/30 bg-[#02040a] overflow-hidden flex flex-col">
       <Background />
@@ -16,7 +18,7 @@ const Index = () => {
       <main className="flex-1 flex flex-col justify-center items-center px-6 relative z-10 pt-12 md:pt-16">
         <div className="w-full max-w-4xl mx-auto space-y-8">
           
-          {/* Header Section (Restructured without disconnected subtitle) */}
+          {/* Header Section */}
           <section className="text-center space-y-4">
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
@@ -30,7 +32,7 @@ const Index = () => {
             </motion.h1>
           </section>
 
-          {/* Combined Interactive Shortener Card (contains integrated subtitle and dominant output) */}
+          {/* Combined Interactive Shortener Card */}
           <section className="relative">
             <ShortenForm />
           </section>
@@ -58,8 +60,8 @@ const Index = () => {
       </main>
 
       <footer className="py-6 text-center relative z-10">
-        <p className="text-white/10 text-[9px] uppercase tracking-[0.4em]">
-          © 2024 • ZipLink Prestige • Built for the 1%
+        <p className="text-white/20 hover:text-white/40 transition-colors duration-300 text-[10px] uppercase tracking-[0.3em] font-semibold">
+          © {currentYear} ZipLink Premium • All Rights Reserved
         </p>
       </footer>
     </div>
