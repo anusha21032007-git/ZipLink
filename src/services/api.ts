@@ -9,7 +9,7 @@ export interface ShortenedURL {
 }
 
 // Persistent mock database using localStorage for demo
-const getStoredLinks = (): ShortenedURL[] => {
+export const getStoredLinks = (): ShortenedURL[] => {
   const stored = localStorage.getItem('ziplink_mock_db');
   return stored ? JSON.parse(stored) : [];
 };
@@ -20,7 +20,7 @@ const saveLinks = (links: ShortenedURL[]) => {
 
 export const shortenUrl = async (url: string): Promise<ShortenedURL> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 1500));
+  await new Promise(resolve => setTimeout(resolve, 1000));
 
   // Basic validation
   if (!url.startsWith('http')) {
@@ -45,7 +45,7 @@ export const shortenUrl = async (url: string): Promise<ShortenedURL> => {
 
 export const getUrlByCode = async (code: string): Promise<ShortenedURL | null> => {
   // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 800));
+  await new Promise(resolve => setTimeout(resolve, 500));
   const links = getStoredLinks();
   const linkIndex = links.findIndex(l => l.shortCode === code);
   
