@@ -2,7 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink, Sparkles, BarChart3 } from 'lucide-react';
+import {
+  Link2,
+  Loader2,
+  Copy,
+  Check,
+  ArrowRight,
+  ExternalLink,
+  Sparkles,
+  BarChart3,
+} from 'lucide-react';
 import { shortenUrl, ShortenedURL } from '@/services/api';
 import { toast } from 'sonner';
 
@@ -72,15 +81,12 @@ const ShortenForm = () => {
       toast.success('ZipLink created successfully', {
         position: 'bottom-center',
         style: {
-          background: 'rgba(0, 0, 0, 0.65)',
+          background: 'rgba(0,0,0,0.75)',
           color: '#fff',
-          fontSize: '0.875rem',
-          padding: '8px 12px',
+          fontSize: '0.85rem',
+          padding: '8px 14px',
           borderRadius: '999px',
-          border: 'none',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-          minWidth: '180px',
-          textAlign: 'center',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
         },
         duration: 4000,
       });
@@ -102,15 +108,12 @@ const ShortenForm = () => {
     toast.success('Copied Successfully', {
       position: 'bottom-center',
       style: {
-        background: 'rgba(0, 0, 0, 0.65)',
+        background: 'rgba(0,0,0,0.75)',
         color: '#fff',
-        fontSize: '0.875rem',
-        padding: '8px 12px',
+        fontSize: '0.85rem',
+        padding: '8px 14px',
         borderRadius: '999px',
-        border: 'none',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-        minWidth: '180px',
-        textAlign: 'center',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.4)',
       },
       duration: 3000,
     });
@@ -120,77 +123,64 @@ const ShortenForm = () => {
   const isInputEmpty = !url.trim();
 
   return (
-    <div className="w-full max-w-2xl mx-auto space-y-3">
-      {/* Glass‑like outer container */}
+    <div className="w-full max-w-xl mx-auto">
+      {/* Glass card with neon border */}
       <motion.div
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.8)] animate-fade-in"
+        className="relative p-[1px] rounded-2xl overflow-hidden bg-[#090d22]/60 backdrop-blur-xl border border-white/10"
       >
-        {/* Gradient border */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-indigo-500/30 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-        <div className="relative bg-[#090d22]/95 backdrop-blur-3xl rounded-[23px] p-3 md:p-5 space-y-3">
-          {/* Intro text */}
-          <p className="text-center text-white/80 text-sm md:text-base font-medium leading-relaxed">
-            Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
-          </p>
-
-          {/* Input form */}
-          <form onSubmit={handleSubmit} className="space-y-1.5">
+        {/* Neon border effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 opacity-30 rounded-2xl pointer-events-none" />
+        <div className="relative bg-[#090d22]/80 backdrop-blur-xl rounded-xl p-4 space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-2">
             <motion.div
               animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}}
               transition={{ duration: 0.4 }}
-              className={`flex flex-col md:flex-row gap-2 p-1.5 bg-white/[0.07] hover:bg-white/[0.09] focus-within:bg-white/[0.1] rounded-xl transition-all duration-300 ${
-                errorMsg
-                  ? 'border-red-500/60 focus-within:border-red-500'
-                  : !isInputEmpty
-                  ? 'border-white/20 focus-within:border-blue-500/70 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]'
-                  : 'border-white/15 focus-within:border-blue-500/50'
+              className={`flex items-center gap-2 px-3 py-2 bg-white/5 rounded-lg focus-within:ring-2 focus-within:ring-purple-500 transition-colors ${
+                errorMsg ? 'border border-red-500/60' : 'border border-white/15'
               }`}
             >
-              <div className="flex-1 flex items-center px-2 md:px-3 gap-2">
-                <AnimatePresence mode="wait">
-                  {favicon ? (
-                    <motion.img
-                      key="favicon"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      src={favicon}
-                      alt="favicon"
-                      className="w-4 h-4 md:w-5 md:h-5 rounded bg-white/20 p-[2px] flex-shrink-0"
-                      onError={() => setFavicon(null)}
-                    />
-                  ) : (
-                    <motion.div key="globe" className="flex-shrink-0">
-                      <Link2 className="text-white/60 w-4 h-4 md:w-5 md:h-5" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {favicon ? (
+                  <motion.img
+                    key="favicon"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    src={favicon}
+                    alt="favicon"
+                    className="w-5 h-5 rounded bg-white/20 p-[2px]"
+                    onError={() => setFavicon(null)}
+                  />
+                ) : (
+                  <motion.div key="globe" className="flex-shrink-0">
+                    <Link2 className="w-5 h-5 text-white/60" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-                <input
-                  type="text"
-                  value={url}
-                  onChange={(e) => {
-                    setUrl(e.target.value);
-                    if (errorMsg) setErrorMsg('');
-                  }}
-                  placeholder="Enter original link here..."
-                  className="w-full bg-transparent border-none outline-none text-white text-sm md:text-base placeholder:text-white/50 py-1.5 font-normal min-w-0"
-                />
-              </div>
+              <input
+                type="text"
+                value={url}
+                onChange={(e) => {
+                  setUrl(e.target.value);
+                  if (errorMsg) setErrorMsg('');
+                }}
+                placeholder="Enter original link..."
+                className="flex-1 bg-transparent border-none outline-none text-white placeholder:text-white/40"
+              />
 
-              <button                type="submit"
+              <button
+                type="submit"
                 disabled={loading}
-                className={`w-full md:w-auto px-4 py-2.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer ${
-                  isInputEmpty ? 'opacity-80 hover:opacity-100' : ''
-                }`}
+                className="flex items-center gap-1 px-4 py-1.5 bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 text-xs font-medium text-white rounded-md hover:scale-[1.02] active:scale-[0.98] transition-transform"
               >
                 {loading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   <>
-                    <span className="uppercase tracking-widest text-[9px]">Create ZipLink</span>
+                    <span>Create</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </>
                 )}
@@ -204,7 +194,7 @@ const ShortenForm = () => {
                   initial={{ opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
-                  className="text-red-400 text-xs font-medium pl-2"
+                  className="text-red-400 text-xs pl-2"
                 >
                   {errorMsg}
                 </motion.p>
@@ -212,74 +202,64 @@ const ShortenForm = () => {
             </AnimatePresence>
           </form>
 
-          {/* Result section – flattened structure */}
+          {/* Result card – compact glass style */}
           <AnimatePresence>
             {result && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                className="space-y-2"
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="bg-[#0a0e1f]/70 backdrop-blur-md border border-white/10 rounded-xl p-3 space-y-2"
               >
-                {/* Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
-                    <span className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">
-                      ZipLink Ready
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-1 px-1 py-0.5 bg-white/5 rounded-full text-[8px] md:text-[9px] text-white/70">
-                    <BarChart3 className="w-3 h-3 text-blue-400" />
-                    <span>{result.clicks} Clicks</span>
-                  </div>
+                <div className="flex items-center justify-between text-xs text-white/60">
+                  <Sparkles className="w-3 h-3 text-purple-400" />
+                  <span>{result.clicks} Clicks</span>
                 </div>
 
-                {/* URL and actions */}
-                <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between">
-                  {/* URL */}
-                  <div className="flex-1 min-w-0 overflow-hidden">
-                    <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/50 block mb-1">
-                      Destination Alias
-                    </span>
-                    <a
-                      href={`/${result.shortCode}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-lg md:text-xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors overflow-hidden whitespace-nowrap text-ellipsis"
-                    >
-                      {window.location.host}/<span className="text-blue-400">{result.shortCode}</span>
-                    </a>
-                  </div>
+                <div className="flex flex-col gap-1">
+                  <a
+                    href={result.originalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-white/70 hover:text-white truncate"
+                  >
+                    {result.originalUrl}
+                  </a>
+                  <a
+                    href={`/${result.shortCode}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium text-purple-400 hover:underline"
+                  >
+                    {window.location.host}/{result.shortCode}
+                  </a>
+                </div>
 
-                  {/* Buttons */}
-                  <div className="flex gap-2 w-full lg:w-auto flex-shrink-0">
-                    <button
-                      onClick={copyToClipboard}
-                      className="flex-1 lg:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 md:py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold uppercase tracking-wider active:scale-[0.98] hover:scale-[1.01] hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]"
-                    >
-                      {copied ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" />
-                          <span>Copied</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
-
-                    <a
-                      href={`/${result.shortCode}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center px-3 bg-white/10 hover:bg-white/20 text-white rounded-lg active:scale-[0.98]"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                    </a>
-                  </div>
+                <div className="flex gap-2 pt-1">
+                  <button
+                    onClick={copyToClipboard}
+                    className="flex-1 flex items-center justify-center gap-1 px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-md text-xs transition-colors"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy</span>
+                      </>
+                    )}
+                  </button>
+                  <a
+                    href={`/${result.shortCode}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-md"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
                 </div>
               </motion.div>
             )}

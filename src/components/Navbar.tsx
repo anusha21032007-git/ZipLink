@@ -1,25 +1,51 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
+import { Link2, Menu, X } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Link2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const [open, setOpen] = useState(false);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 flex justify-start p-4 md:p-8 pointer-events-none">
-      <motion.div 
-        initial={{ x: -20, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        className="pointer-events-auto bg-[#060812]/50 backdrop-blur-md border border-white/10 rounded-full px-4 py-2 md:px-5 md:py-2.5 flex items-center shadow-xl shadow-black/40"
+    <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-8 py-2 bg-[#02040a]/70 backdrop-blur-xl border-b border-white/10">
+      {/* Logo */}
+      <Link to="/" className="flex items-center gap-2">
+        <div className="p-1 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-md shadow-md shadow-purple-600/30">
+          <Link2 className="w-4 h-4 text-white" />
+        </div>
+        <span className="text-sm font-bold text-white">ZipLink</span>
+      </Link>
+
+      {/* Desktop links (placeholder for future) */}
+      <div className="hidden md:flex gap-6">
+        {/* Add future nav links here */}
+      </div>
+
+      {/* Mobile menu button */}
+      <button
+        className="md:hidden p-1.5 rounded-md hover:bg-white/5 transition-colors"
+        onClick={() => setOpen(!open)}
+        aria-label="Toggle menu"
       >
-        {/* Logo and Brand */}
-        <div className="flex items-center gap-2">
-          <div className="p-1 md:p-1.5 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg shadow-md shadow-blue-500/10">
-            <Link2 className="w-3.5 h-3.5 md:w-4 md:h-4 text-white" />
-          </div>
-          <span className="text-xs md:text-sm font-bold tracking-tight text-white">
-            ZipLink
-          </span>
+        {open ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
+      </button>
+
+      {/* Mobile drawer */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: open ? 1 : 0, y: open ? 0 : -20 }}
+        transition={{ duration: 0.2 }}
+        className={`absolute top-full left-0 w-full bg-[#02040a]/90 backdrop-blur-xl border-t border-white/10 md:hidden ${
+          open ? 'block' : 'hidden'
+        }`}
+      >
+        <div className="flex flex-col p-4 space-y-3">
+          {/* Placeholder links */}
+          <Link to="/" className="text-sm text-white hover:text-purple-400 transition-colors">
+            Home
+          </Link>
         </div>
       </motion.div>
     </nav>

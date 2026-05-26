@@ -11,83 +11,76 @@ const Index = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="h-screen w-full text-white font-sans selection:bg-blue-500/30 bg-[#02040a] flex flex-col overflow-hidden">
+    <div className="min-h-screen w-full bg-[#02040a] text-white font-sans flex flex-col overflow-hidden relative">
       <Background />
       <Navbar />
-      
-      {/* Main content */}
-      <main className="flex-1 flex flex-col items-center px-4 md:px-6 relative z-10 pt-12">
-        <div className="w-full max-w-2xl mx-auto space-y-3 md:space-y-4">
-          
-          {/* Hero */}
-          <section className="text-center space-y-1">
-            <motion.h1              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight leading-[1.2]"
-            >
-              Zip Your Links <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400">
-                Instantly.
-              </span>
-            </motion.h1>
-          </section>
+
+      {/* Hero & main content */}
+      <main className="flex-1 flex flex-col items-center px-4 md:px-6 pt-20 md:pt-24 relative z-10">
+        {/* Floating neon blobs (tiny) */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          animate={{
+            background: [
+              'radial-gradient(circle at 20% 30%, rgba(138,43,226,0.15), transparent 60%)',
+              'radial-gradient(circle at 80% 70%, rgba(0,191,255,0.15), transparent 60%)',
+            ],
+          }}
+          transition={{ repeat: Infinity, duration: 8, ease: 'linear' }}
+        />
+
+        <div className="w-full max-w-2xl mx-auto space-y-6 text-center">
+          {/* Hero heading with animated gradient */}
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-2xl md:text-4xl font-extrabold tracking-tight"
+          >
+            Zip Your Links{' '}
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-400 animate-gradient-x">
+              Instantly.
+            </span>
+          </motion.h1>
+
+          {/* Sub‑heading placed directly under the hero */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-sm md:text-base text-white/70 max-w-md mx-auto"
+          >
+            Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
+          </motion.p>
 
           {/* Shorten form */}
-          <section className="relative">
+          <section className="mt-4">
             <ShortenForm />
           </section>
 
-          {/* Mobile feature icons – only icons, no text */}
-          <div className="flex justify-center gap-6 pt-2 sm:hidden">
-            <motion.div              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center justify-center w-8 h-8 text-blue-400"
-            >
-              <Zap className="w-5 h-5" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center justify-center w-8 h-8 text-purple-400"
-            >
-              <Shield className="w-5 h-5" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center justify-center w-8 h-8 text-indigo-400"
-            >
-              <BarChart3 className="w-5 h-5" />
-            </motion.div>
-          </div>
-
-          {/* Desktop feature row – keep text labels */}
-          <div className="hidden sm:flex justify-center gap-6 pt-2">
+          {/* Feature icons */}
+          <div className="hidden sm:flex justify-center gap-8 pt-4">
             {[
-              { icon: <Zap className="w-3.5 h-3.5 text-blue-400/80" />, label: "Real-time Edge" },
-              { icon: <Shield className="w-3.5 h-3.5 text-purple-400/80" />, label: "Secured Vault" },
-              { icon: <BarChart3 className="w-3.5 h-3.5 text-indigo-400/80" />, label: "Smart Analytics" }
+              { icon: <Zap className="w-4 h-4 text-purple-400" />, label: 'Real‑time Edge' },
+              { icon: <Shield className="w-4 h-4 text-indigo-400" />, label: 'Secured Vault' },
+              { icon: <BarChart3 className="w-4 h-4 text-cyan-400" />, label: 'Smart Analytics' },
             ].map((f, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 + i * 0.1 }}
-                className="flex items-center gap-2 text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold text-white/30 hover:text-white/60 transition-colors"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + i * 0.1 }}
+                className="flex flex-col items-center gap-1 text-xs uppercase tracking-wider text-white/40 hover:text-white/70 transition-colors"
               >
                 {f.icon}
-                {f.label}
+                <span>{f.label}</span>
               </motion.div>
             ))}
           </div>
         </div>
       </main>
 
-      {/* Footer – now guaranteed to be visible */}
-      <footer className="py-3 text-center relative z-20 px-4">
-        <p className="text-white/20 hover:text-white/40 transition-colors duration-300 text-[8px] md:text-[9px] uppercase tracking-[0.3em] font-semibold leading-relaxed">
-          © {currentYear} ZipLink Premium • All Rights Reserved
-        </p>
+      {/* Footer */}
+      <footer className="py-4 text-center text-xs text-white/30">
+        © {currentYear} ZipLink Premium • All Rights Reserved
       </footer>
     </div>
   );
