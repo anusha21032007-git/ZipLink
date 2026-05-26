@@ -13,43 +13,33 @@ const Index = () => {
       <Background />
       <Navbar />
       
-      <main className="flex-1 flex flex-col justify-center items-center px-6 relative z-10 pt-20">
-        <div className="w-full max-w-4xl mx-auto space-y-10 md:space-y-12">
+      <main className="flex-1 flex flex-col justify-center items-center px-6 relative z-10 pt-12 md:pt-16">
+        <div className="w-full max-w-4xl mx-auto space-y-8">
           
-          {/* Hero Section */}
-          <section className="text-center space-y-5">
+          {/* Header Section (Restructured without disconnected subtitle) */}
+          <section className="text-center space-y-4">
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400 mx-auto"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/10 text-[9px] font-bold uppercase tracking-[0.25em] text-blue-400 mx-auto"
             >
               <span className="flex h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
-              Fast • Secure • Smart
+              FAST • SECURE • SMART
             </motion.div>
             
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] text-center"
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1] text-center"
             >
               Zip Your Links <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 font-extrabold">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400">
                 Instantly.
               </span>
             </motion.h1>
-            
-            <motion.p 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-white/50 text-sm md:text-base max-w-xl mx-auto font-light leading-relaxed px-4 text-center"
-            >
-              Transform long, messy URLs into clean, powerful smart links. <br className="hidden md:block"/>
-              Track clicks and share beautifully across the web.
-            </motion.p>
           </section>
 
-          {/* Shortener Card */}
+          {/* Combined Interactive Shortener Card (contains integrated subtitle and dominant output) */}
           <section className="relative">
             <ShortenForm />
           </section>
