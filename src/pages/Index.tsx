@@ -9,12 +9,13 @@ import { Shield, BarChart3, Globe2 } from 'lucide-react';
 
 const Index = () => {
   return (
-    <div className="h-screen w-full text-white font-sans selection:bg-[#C5A059]/30 bg-[#050505] overflow-hidden flex flex-col">
+    <div className="min-h-screen w-full text-white font-sans selection:bg-[#C5A059]/30 bg-[#050505] flex flex-col relative">
       <Background />
       <Navbar />
       
-      <main className="flex-1 flex flex-col justify-center items-center px-6 relative z-10 pt-20">
-        <div className="w-full max-w-6xl mx-auto space-y-12">
+      {/* Content wrapper with padding for navbar and footer */}
+      <main className="flex-1 flex flex-col justify-center items-center px-6 pt-32 pb-12 relative z-10">
+        <div className="w-full max-w-6xl mx-auto space-y-12 py-8">
           {/* Hero Section */}
           <div className="text-center space-y-6">
             <motion.div
@@ -54,8 +55,8 @@ const Index = () => {
             <ShortenForm />
           </motion.div>
 
-          {/* Intelligence Grid - Simplified for single screen */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto pt-4">
+          {/* Intelligence Grid - Horizontal and compact */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto pt-4">
             {[
               {
                 icon: <Globe2 className="w-4 h-4 text-[#C5A059]" />,
@@ -78,7 +79,7 @@ const Index = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 + i * 0.1 }}
-                className="flex items-center gap-4 bg-white/[0.02] border border-white/5 p-4 rounded-2xl"
+                className="flex items-center gap-4 bg-white/[0.02] border border-white/5 p-4 rounded-2xl backdrop-blur-sm"
               >
                 <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-white/[0.03] border border-white/5 rounded-xl">
                   {feature.icon}
@@ -93,7 +94,7 @@ const Index = () => {
         </div>
       </main>
 
-      <footer className="py-8 text-center mt-auto">
+      <footer className="py-8 text-center relative z-10 bg-gradient-to-t from-black/80 to-transparent">
         <p className="text-white/10 text-[9px] uppercase tracking-[0.4em]">
           © 2024 • ZipLink Prestige • Built for the 1%
         </p>
