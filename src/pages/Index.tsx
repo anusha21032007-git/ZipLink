@@ -18,16 +18,7 @@ const Index = () => {
           
           {/* Header Section (Restructured without disconnected subtitle) */}
           <section className="text-center space-y-4">
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/10 text-[9px] font-bold uppercase tracking-[0.25em] text-blue-400 mx-auto"
-            >
-              <span className="flex h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
-              FAST • SECURE • SMART
-            </motion.div>
-            
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1] text-center"
