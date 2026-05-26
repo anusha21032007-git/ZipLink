@@ -86,34 +86,20 @@ const ShortenForm = () => {
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
               >
-                <div className="mt-6 pt-6 border-t border-white/5 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Shortened URL Display */}
-                    <div className="space-y-2">
-                      <label className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold ml-1">Zipped Alias</label>
-                      <div className="flex gap-2">
-                        <div className="flex-1 bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-sm text-blue-400 font-medium truncate">
-                          ziplink.io/{result.shortCode}
-                        </div>
-                        <button 
-                          onClick={copyToClipboard}
-                          className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 text-white transition-all text-[10px] font-bold uppercase tracking-wider active:scale-95"
-                        >
-                          {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
-                        </button>
+                <div className="mt-6 pt-6 border-t border-white/5">
+                  {/* Shortened URL Display */}
+                  <div className="space-y-2">
+                    <label className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold ml-1">Zipped Alias</label>
+                    <div className="flex gap-2">
+                      <div className="flex-1 bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-sm text-blue-400 font-medium truncate">
+                        ziplink.io/{result.shortCode}
                       </div>
-                    </div>
-
-                    {/* Compact Stats */}
-                    <div className="flex items-center gap-4">
-                      <div className="flex-1 bg-white/[0.02] border border-white/5 rounded-lg p-3 flex flex-col justify-center">
-                        <span className="text-[8px] uppercase tracking-wider font-bold text-white/20 mb-0.5">Impressions</span>
-                        <p className="text-xl font-bold text-white">{result.clicks}</p>
-                      </div>
-                      <div className="flex-1 bg-white/[0.02] border border-white/5 rounded-lg p-3 flex flex-col justify-center">
-                        <span className="text-[8px] uppercase tracking-wider font-bold text-white/20 mb-0.5">Security</span>
-                        <p className="text-[10px] font-medium text-green-400/70">Verified</p>
-                      </div>
+                      <button
+                        onClick={copyToClipboard}
+                        className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 text-white transition-all text-[10px] font-bold uppercase tracking-wider active:scale-95"
+                      >
+                        {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
+                      </button>
                     </div>
                   </div>
                 </div>
