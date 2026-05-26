@@ -214,7 +214,7 @@ const ShortenForm = () => {
 
                 {/* URL Display */}
                 <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between bg-black/40 p-2.5 rounded-xl border border-white/10 hover:border-blue-500/30 transition-all duration-300">
-                  <div className="text-center lg:text-left space-y-0.5 min-w-0 flex-1">
+                  <div className="text-center lg:text-left space-y-0.5 min-w-0 flex-1 max-w-[200px]">
                     <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/50 block">Destination Alias</span>
                     <a 
                       href={`/${result.shortCode}`}
