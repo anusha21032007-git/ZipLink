@@ -22,6 +22,7 @@ const App = () => (
             border: '1px solid rgba(197, 160, 89, 0.2)',
             color: '#fff',
             boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
+            fontFamily: 'inherit',
           },
         }}
       />
