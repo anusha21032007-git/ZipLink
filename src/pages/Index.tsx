@@ -21,8 +21,7 @@ const Index = () => {
           
           {/* Hero */}
           <section className="text-center space-y-1">
-            <motion.h1
-              initial={{ opacity: 0, y: 15 }}
+            <motion.h1              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-xl md:text-2xl lg:text-3xl font-extrabold tracking-tight leading-[1.2]"
             >
@@ -40,8 +39,7 @@ const Index = () => {
 
           {/* Mobile feature icons – only icons, no text */}
           <div className="flex justify-center gap-6 pt-2 sm:hidden">
-            <motion.div
-              initial={{ opacity: 0 }}
+            <motion.div              initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="flex items-center justify-center w-8 h-8 text-blue-400"
             >
@@ -85,8 +83,8 @@ const Index = () => {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="py-3 text-center relative z-10 px-4">
+      {/* Footer – now guaranteed to be visible */}
+      <footer className="py-3 text-center relative z-20 px-4">
         <p className="text-white/20 hover:text-white/40 transition-colors duration-300 text-[8px] md:text-[9px] uppercase tracking-[0.3em] font-semibold leading-relaxed">
           © {currentYear} ZipLink Premium • All Rights Reserved
         </p>
