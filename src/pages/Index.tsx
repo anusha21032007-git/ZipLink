@@ -15,7 +15,8 @@ const Index = () => {
       <Background />
       <Navbar />
       
-      <main className="flex-1 flex flex-col justify-center items-center px-4 md:px-6 relative z-10 pt-20 md:pt-28 pb-10">
+      {/* Optimized padding and alignment to bring content closer to the navbar */}
+      <main className="flex-1 flex flex-col justify-start items-center px-4 md:px-6 relative z-10 pt-24 md:pt-32 pb-10">
         <div className="w-full max-w-4xl mx-auto space-y-6 md:space-y-8">
           
           {/* Header Section */}
