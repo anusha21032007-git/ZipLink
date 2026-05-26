@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink } from 'lucide-react';
+import { Link2, Loader2, Copy, Check, ArrowRight, BarChart3, Calendar } from 'lucide-react';
 import { shortenUrl, ShortenedURL } from '@/services/api';
 import { toast } from 'sonner';
 
@@ -17,13 +17,12 @@ const ShortenForm = () => {
     if (!url) return;
 
     setLoading(true);
-    setResult(null);
     try {
       const data = await shortenUrl(url);
       setResult(data);
-      toast.success('Link generated');
+      toast.success('Link zipped successfully!');
     } catch (error: any) {
-      toast.error(error.message || 'Verification failed');
+      toast.error(error.message || 'Error zipping link');
     } finally {
       setLoading(false);
     }
@@ -34,110 +33,122 @@ const ShortenForm = () => {
     const shortUrl = `${window.location.origin}/${result.shortCode}`;
     navigator.clipboard.writeText(shortUrl);
     setCopied(true);
-    toast.success('Copied Successfully');
+    toast.success('Copied to clipboard');
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-8">
-      {/* Input Section */}
-      <motion.form 
-        onSubmit={handleSubmit}
-        className="relative group"
+    <div className="w-full max-w-4xl mx-auto">
+      {/* Main Card */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative p-[1px] rounded-3xl overflow-hidden group"
       >
-        <div className="absolute -inset-[1px] bg-gradient-to-r from-[#C5A059]/0 via-[#C5A059]/20 to-[#C5A059]/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-        <div className="relative flex flex-col md:flex-row gap-2 p-2 bg-white/[0.03] backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl">
-          <div className="flex-1 flex items-center px-4 gap-3">
-            <Link2 className="text-[#C5A059] w-4 h-4 opacity-70" />
-            <input 
-              type="text"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="Paste your original long URL here..."
-              className="w-full bg-transparent border-none outline-none text-white text-sm placeholder:text-white/20 py-3 font-light"
-            />
-          </div>
-          <button 
-            type="submit"
-            disabled={loading}
-            className="px-8 py-3 bg-gradient-to-br from-[#C5A059] to-[#8E7949] text-black font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 hover:brightness-110 shadow-lg active:scale-95"
-          >
-            {loading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <>
-                <span className="uppercase tracking-widest text-[10px]">Shorten</span>
-                <ArrowRight className="w-3 h-3" />
-              </>
-            )}
-          </button>
-        </div>
-      </motion.form>
-
-      {/* Result Section */}
-      <AnimatePresence mode="wait">
-        {result && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.98 }}
-            className="bg-white/[0.02] backdrop-blur-2xl border border-white/5 rounded-2xl p-6 shadow-2xl space-y-6 overflow-hidden relative"
-          >
-            {/* Original Link */}
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.2em] text-[#C5A059]/60 font-bold block">Original Link</label>
-              <div className="bg-black/20 border border-white/5 rounded-xl px-4 py-3 text-sm text-white/60 font-light truncate italic">
-                {result.originalUrl}
-              </div>
-            </div>
-
-            {/* Zipped Link */}
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase tracking-[0.2em] text-[#C5A059]/60 font-bold block">Zipped Link</label>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1 bg-black/40 border border-[#C5A059]/20 rounded-xl px-4 py-3 flex items-center justify-between group/link">
-                  <a 
-                    href={`/${result.shortCode}`}
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-lg font-serif text-white hover:text-[#C5A059] transition-colors flex items-center gap-2"
-                  >
-                    ziplink.io/<span className="text-[#C5A059]">{result.shortCode}</span>
-                    <ExternalLink className="w-3 h-3 opacity-30" />
-                  </a>
+        {/* Animated border gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-blue-500/50 opacity-20 group-hover:opacity-40 transition-opacity" />
+        
+        <div className="relative bg-[#0a0c14]/40 backdrop-blur-2xl p-6 md:p-10 rounded-[23px] border border-white/5 shadow-2xl">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1 relative">
+                <div className="absolute inset-y-0 left-4 flex items-center text-white/30">
+                  <Link2 className="w-5 h-5" />
                 </div>
-                <button 
-                  onClick={copyToClipboard}
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 text-white rounded-xl transition-all border border-white/10 uppercase tracking-widest text-[10px] font-bold whitespace-nowrap active:scale-95"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-3 h-3 text-[#C5A059]" />
-                      Copied
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3 h-3 text-[#C5A059]" />
-                      Copy
-                    </>
-                  )}
-                </button>
+                <input 
+                  type="text"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder="Enter original link here..."
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-12 py-4 text-white placeholder:text-white/20 outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
+                />
               </div>
+              <button 
+                type="submit"
+                disabled={loading}
+                className="px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-2xl hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95"
+              >
+                {loading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    ZIP LINK
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
             </div>
+          </form>
 
-            {/* Stats */}
-            <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-              <div className="space-y-0.5">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-[#C5A059]/60 font-bold">Impressions</p>
-                <p className="text-2xl font-serif text-white">{result.clicks}</p>
-              </div>
-              <div className="text-[10px] uppercase tracking-[0.1em] text-white/10 font-medium">
-                Verified Security • Private Beta
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {/* Result Card */}
+          <AnimatePresence>
+            {result && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                <div className="mt-10 pt-10 border-t border-white/5 space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Shortened URL Display */}
+                    <div className="space-y-3">
+                      <label className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold ml-1">Zipped Link</label>
+                      <div className="flex gap-2">
+                        <input 
+                          readOnly
+                          value={`ziplink.io/${result.shortCode}`}
+                          className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-blue-400 font-medium outline-none"
+                        />
+                        <button 
+                          onClick={copyToClipboard}
+                          className="p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-white transition-all group/copy relative active:scale-90"
+                        >
+                          <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur opacity-0 group-hover/copy:opacity-100 transition-opacity" />
+                          {copied ? <Check className="w-5 h-5 text-green-400 relative z-10" /> : <Copy className="w-5 h-5 relative z-10" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Stats Display */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col justify-center">
+                        <div className="flex items-center gap-2 text-white/30 mb-1">
+                          <BarChart3 className="w-3 h-3" />
+                          <span className="text-[9px] uppercase tracking-wider font-bold">Total Clicks</span>
+                        </div>
+                        <p className="text-2xl font-bold text-white">{result.clicks}</p>
+                      </div>
+                      <div className="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col justify-center">
+                        <div className="flex items-center gap-2 text-white/30 mb-1">
+                          <Calendar className="w-3 h-3" />
+                          <span className="text-[9px] uppercase tracking-wider font-bold">Created</span>
+                        </div>
+                        <p className="text-sm font-medium text-white/80">
+                          {new Date(result.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Animated Mini Graph Decoration */}
+                  <div className="w-full h-12 bg-white/[0.02] rounded-xl overflow-hidden flex items-end px-2 gap-1">
+                    {[40, 70, 45, 90, 65, 30, 80, 50, 60, 40, 85, 75, 55, 95, 60, 40, 70, 50].map((h, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ height: 0 }}
+                        animate={{ height: `${h}%` }}
+                        transition={{ delay: i * 0.05, duration: 1 }}
+                        className="flex-1 bg-gradient-to-t from-blue-500/20 to-purple-500/20 rounded-t-sm"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
     </div>
   );
 };
