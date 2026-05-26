@@ -93,22 +93,21 @@ const ShortenForm = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-3">
-      {/* Interaction card */}
+      {/* Glass‑like outer card */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.8)] animate-fade-in"
       >
+        {/* Subtle gradient border */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-indigo-500/30 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-        <div className="relative bg-[#090d22]/95 backdrop-blur-3xl border border-white/15 rounded-[23px] p-3 md:p-5 space-y-2.5">
-          {/* Subtitle */}
-          <div className="text-center space-y-1 pb-1.5 border-b border-white/10">
-            <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed">
-              Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
-            </p>
-          </div>
+        <div className="relative bg-[#090d22]/95 backdrop-blur-3xl rounded-[23px] p-3 md:p-5 space-y-2.5">
+          {/* Intro text – no extra border */}
+          <p className="text-center text-white/80 text-sm md:text-base font-medium leading-relaxed mb-2">
+            Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
+          </p>
 
-          {/* Form */}
+          {/* Input form */}
           <form onSubmit={handleSubmit} className="space-y-1.5">
             <motion.div
               animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}}
@@ -156,7 +155,7 @@ const ShortenForm = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full md:w-auto px-4 py-2.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 relative overflow-hidden active:scale-[0.98] transform hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer ${
+                className={`w-full md:w-auto px-4 py-2.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer ${
                   isInputEmpty ? 'opacity-80 hover:opacity-100' : ''
                 }`}
               >
@@ -186,17 +185,17 @@ const ShortenForm = () => {
             </AnimatePresence>
           </form>
 
-          {/* Result card */}
-          <AnimatePresence mode="wait">
+          {/* Result card – simplified hierarchy */}
+          <AnimatePresence>
             {result && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className="p-2.5 md:p-3 bg-white/[0.04] border border-white/15 rounded-2xl space-y-1.5"
+                className="p-3 bg-white/[0.04] rounded-2xl space-y-2"
               >
-                {/* Header */}
-                <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
+                {/* Header with subtle separator */}
+                <div className="flex items-center justify-between pb-2 border-b border-white/10">
                   <div className="flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
                     <span className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">
@@ -209,9 +208,9 @@ const ShortenForm = () => {
                   </div>
                 </div>
 
-                {/* URL & actions */}
-                <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between bg-black/40 p-2.5 rounded-xl border border-white/10 hover:border-blue-500/30 transition-all duration-300">
-                  {/* URL wrapper – flex‑shrink 1, min‑width 0, ellipsis */}
+                {/* URL + actions */}
+                <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between bg-black/30 p-2.5 rounded-xl">
+                  {/* URL – flex‑shrink with ellipsis */}
                   <div className="flex-1 min-w-0 overflow-hidden">
                     <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/50 block mb-1">
                       Destination Alias
@@ -220,17 +219,17 @@ const ShortenForm = () => {
                       href={`/${result.shortCode}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block text-lg md:text-xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors duration-200 overflow-hidden whitespace-nowrap text-ellipsis"
+                      className="block text-lg md:text-xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors overflow-hidden whitespace-nowrap text-ellipsis"
                     >
                       {window.location.host}/<span className="text-blue-400">{result.shortCode}</span>
                     </a>
                   </div>
 
-                  {/* Buttons – never shrink */}
+                  {/* Action buttons – fixed size, never shrink */}
                   <div className="flex gap-2 w-full lg:w-auto flex-shrink-0">
                     <button
                       onClick={copyToClipboard}
-                      className="flex-1 lg:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 md:py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all text-xs font-bold uppercase tracking-wider active:scale-[0.98] transform hover:scale-[1.01] hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                      className="flex-1 lg:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 md:py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold uppercase tracking-wider active:scale-[0.98] hover:scale-[1.01] hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]"
                     >
                       {copied ? (
                         <>
@@ -249,7 +248,7 @@ const ShortenForm = () => {
                       href={`/${result.shortCode}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center px-3 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-lg transition-all active:scale-[0.98]"
+                      className="flex items-center justify-center px-3 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-lg active:scale-[0.98]"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </a>
