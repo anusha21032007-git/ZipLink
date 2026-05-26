@@ -33,54 +33,51 @@ const ShortenForm = () => {
     const shortUrl = `${window.location.origin}/${result.shortCode}`;
     navigator.clipboard.writeText(shortUrl);
     setCopied(true);
-    toast.success('Copied to clipboard');
+    toast.success('Copied Successfully');
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-3xl mx-auto">
       {/* Main Card */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative p-[1px] rounded-3xl overflow-hidden group"
+        className="relative p-[1px] rounded-2xl overflow-hidden group"
       >
-        {/* Animated border gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/50 via-purple-500/50 to-blue-500/50 opacity-20 group-hover:opacity-40 transition-opacity" />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-blue-500/30 opacity-20 group-hover:opacity-40 transition-opacity" />
         
-        <div className="relative bg-[#0a0c14]/40 backdrop-blur-2xl p-6 md:p-10 rounded-[23px] border border-white/5 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1 relative">
-                <div className="absolute inset-y-0 left-4 flex items-center text-white/30">
-                  <Link2 className="w-5 h-5" />
-                </div>
-                <input 
-                  type="text"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="Enter original link here..."
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-12 py-4 text-white placeholder:text-white/20 outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
-                />
+        <div className="relative bg-[#0a0c14]/40 backdrop-blur-2xl p-4 md:p-6 rounded-[15px] border border-white/5 shadow-2xl">
+          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-3">
+            <div className="flex-1 relative">
+              <div className="absolute inset-y-0 left-4 flex items-center text-white/30">
+                <Link2 className="w-4 h-4" />
               </div>
-              <button 
-                type="submit"
-                disabled={loading}
-                className="px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-2xl hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95"
-              >
-                {loading ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <>
-                    ZIP LINK
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
+              <input 
+                type="text"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                placeholder="Paste your original long URL here..."
+                className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-10 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-blue-500/50 focus:bg-white/[0.05] transition-all"
+              />
             </div>
+            <button 
+              type="submit"
+              disabled={loading}
+              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold rounded-xl hover:shadow-[0_0_15px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-2 disabled:opacity-50 active:scale-95 whitespace-nowrap"
+            >
+              {loading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <>
+                  ZIP LINK
+                  <ArrowRight className="w-3 h-3" />
+                </>
+              )}
+            </button>
           </form>
 
-          {/* Result Card */}
+          {/* Compact Result Card */}
           <AnimatePresence>
             {result && (
               <motion.div
@@ -89,59 +86,35 @@ const ShortenForm = () => {
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
               >
-                <div className="mt-10 pt-10 border-t border-white/5 space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="mt-6 pt-6 border-t border-white/5 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Shortened URL Display */}
-                    <div className="space-y-3">
-                      <label className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold ml-1">Zipped Link</label>
+                    <div className="space-y-2">
+                      <label className="text-[9px] uppercase tracking-[0.2em] text-white/30 font-bold ml-1">Zipped Alias</label>
                       <div className="flex gap-2">
-                        <input 
-                          readOnly
-                          value={`ziplink.io/${result.shortCode}`}
-                          className="flex-1 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-blue-400 font-medium outline-none"
-                        />
+                        <div className="flex-1 bg-white/[0.03] border border-white/10 rounded-lg px-3 py-2 text-sm text-blue-400 font-medium truncate">
+                          ziplink.io/{result.shortCode}
+                        </div>
                         <button 
                           onClick={copyToClipboard}
-                          className="p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 text-white transition-all group/copy relative active:scale-90"
+                          className="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-lg border border-white/10 text-white transition-all text-[10px] font-bold uppercase tracking-wider active:scale-95"
                         >
-                          <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur opacity-0 group-hover/copy:opacity-100 transition-opacity" />
-                          {copied ? <Check className="w-5 h-5 text-green-400 relative z-10" /> : <Copy className="w-5 h-5 relative z-10" />}
+                          {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5" />}
                         </button>
                       </div>
                     </div>
 
-                    {/* Stats Display */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col justify-center">
-                        <div className="flex items-center gap-2 text-white/30 mb-1">
-                          <BarChart3 className="w-3 h-3" />
-                          <span className="text-[9px] uppercase tracking-wider font-bold">Total Clicks</span>
-                        </div>
-                        <p className="text-2xl font-bold text-white">{result.clicks}</p>
+                    {/* Compact Stats */}
+                    <div className="flex items-center gap-4">
+                      <div className="flex-1 bg-white/[0.02] border border-white/5 rounded-lg p-3 flex flex-col justify-center">
+                        <span className="text-[8px] uppercase tracking-wider font-bold text-white/20 mb-0.5">Impressions</span>
+                        <p className="text-xl font-bold text-white">{result.clicks}</p>
                       </div>
-                      <div className="bg-white/[0.02] border border-white/5 rounded-xl p-4 flex flex-col justify-center">
-                        <div className="flex items-center gap-2 text-white/30 mb-1">
-                          <Calendar className="w-3 h-3" />
-                          <span className="text-[9px] uppercase tracking-wider font-bold">Created</span>
-                        </div>
-                        <p className="text-sm font-medium text-white/80">
-                          {new Date(result.createdAt).toLocaleDateString()}
-                        </p>
+                      <div className="flex-1 bg-white/[0.02] border border-white/5 rounded-lg p-3 flex flex-col justify-center">
+                        <span className="text-[8px] uppercase tracking-wider font-bold text-white/20 mb-0.5">Security</span>
+                        <p className="text-[10px] font-medium text-green-400/70">Verified</p>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Animated Mini Graph Decoration */}
-                  <div className="w-full h-12 bg-white/[0.02] rounded-xl overflow-hidden flex items-end px-2 gap-1">
-                    {[40, 70, 45, 90, 65, 30, 80, 50, 60, 40, 85, 75, 55, 95, 60, 40, 70, 50].map((h, i) => (
-                      <motion.div 
-                        key={i}
-                        initial={{ height: 0 }}
-                        animate={{ height: `${h}%` }}
-                        transition={{ delay: i * 0.05, duration: 1 }}
-                        className="flex-1 bg-gradient-to-t from-blue-500/20 to-purple-500/20 rounded-t-sm"
-                      />
-                    ))}
                   </div>
                 </div>
               </motion.div>
