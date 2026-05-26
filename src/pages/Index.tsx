@@ -26,11 +26,11 @@ const Index = () => {
               Established 2024 • Private Beta
             </motion.div>
             
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium tracking-tight leading-[1] text-center"
+              className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight leading-[1.1] text-center"
             >
               Zip Your Links <br />
               <span className="italic text-[#C5A059]">Instantly.</span>
