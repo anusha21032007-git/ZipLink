@@ -25,10 +25,23 @@ export const shortenUrl = async (url: string): Promise<ShortenedURL> => {
     id: Date.now().toString(),
     originalUrl: url,
     shortCode,
-    clicks: Math.floor(Math.random() * 10),
+    clicks: 0,
     createdAt: new Date().toISOString(),
   };
 
   mockLinks.unshift(newLink);
   return newLink;
+};
+
+export const getUrlByCode = async (code: string): Promise<ShortenedURL | null> => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 800));
+  const link = mockLinks.find(l => l.shortCode === code);
+  
+  if (link) {
+    link.clicks += 1; // Increment clicks
+    return { ...link };
+  }
+  
+  return null;
 };
