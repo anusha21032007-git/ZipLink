@@ -69,7 +69,21 @@ const ShortenForm = () => {
     try {
       const data = await shortenUrl(url.startsWith('http') ? url : `https://${url}`);
       setResult(data);
-      toast.success('ZipLink created successfully');
+      toast.success('ZipLink created successfully', {
+        position: 'bottom-center',
+        style: {
+          background: 'rgba(0, 0, 0, 0.65)',
+          color: '#fff',
+          fontSize: '0.875rem',
+          padding: '8px 12px',
+          borderRadius: '999px',
+          border: 'none',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+          minWidth: '180px',
+          textAlign: 'center',
+        },
+        duration: 4000,
+      });
     } catch (error: any) {
       setErrorMsg(error.message || 'Error creating ZipLink');
       setShake(true);
@@ -85,7 +99,21 @@ const ShortenForm = () => {
     const shortUrl = `${window.location.origin}/${result.shortCode}`;
     navigator.clipboard.writeText(shortUrl);
     setCopied(true);
-    toast.success('Copied Successfully');
+    toast.success('Copied Successfully', {
+      position: 'bottom-center',
+      style: {
+        background: 'rgba(0, 0, 0, 0.65)',
+        color: '#fff',
+        fontSize: '0.875rem',
+        padding: '8px 12px',
+        borderRadius: '999px',
+        border: 'none',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+        minWidth: '180px',
+        textAlign: 'center',
+      },
+      duration: 3000,
+    });
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -152,8 +180,7 @@ const ShortenForm = () => {
                 />
               </div>
 
-              <button
-                type="submit"
+              <button                type="submit"
                 disabled={loading}
                 className={`w-full md:w-auto px-4 py-2.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer ${
                   isInputEmpty ? 'opacity-80 hover:opacity-100' : ''
