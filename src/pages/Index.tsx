@@ -15,12 +15,12 @@ const Index = () => {
       <Background />
       <Navbar />
       
-      {/* Main content centered perfectly in the viewport with improved vertical distribution */}
+      {/* Main content optimized for viewport usage */}
       <main className="flex-1 flex flex-col justify-center items-center px-4 md:px-6 relative z-10 pt-16">
-        <div className="w-full max-w-4xl mx-auto space-y-6 md:space-y-10">
+        <div className="w-full max-w-4xl mx-auto space-y-4 md:space-y-6">
           
-          {/* Header Section - Removed negative margin to prevent clipping */}
-          <section className="text-center space-y-3">
+          {/* Header Section - reduced spacing */}
+          <section className="text-center space-y-2">
             <motion.h1
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
@@ -33,13 +33,13 @@ const Index = () => {
             </motion.h1>
           </section>
 
-          {/* Interactive Shortener Card */}
+          {/* Interactive Shortener Card - reduced spacing */}
           <section className="relative">
             <ShortenForm />
           </section>
 
-          {/* Mini Features - Adjusted spacing for better fit */}
-          <div className="hidden sm:flex justify-center gap-10 pt-2">
+          {/* Mini Features - reduced spacing and more compact */}
+          <div className="hidden sm:flex justify-center gap-8 pt-1">
             {[
               { icon: <Zap className="w-3.5 h-3.5 text-blue-400/80" />, label: "Real-time Edge" },
               { icon: <Shield className="w-3.5 h-3.5 text-purple-400/80" />, label: "Secured Vault" },
@@ -50,7 +50,7 @@ const Index = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 + i * 0.1 }}
-                className="flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] font-bold text-white/30 hover:text-white/60 transition-colors"
+                className="flex items-center gap-2 text-[8px] md:text-[9px] uppercase tracking-[0.2em] font-bold text-white/30 hover:text-white/60 transition-colors"
               >
                 {f.icon}
                 {f.label}
@@ -61,8 +61,8 @@ const Index = () => {
       </main>
 
       {/* Fixed footer at the bottom */}
-      <footer className="shrink-0 py-4 text-center relative z-10 px-4">
-        <p className="text-white/20 hover:text-white/40 transition-colors duration-300 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-semibold leading-relaxed">
+      <footer className="shrink-0 py-3 text-center relative z-10 px-4">
+        <p className="text-white/20 hover:text-white/40 transition-colors duration-300 text-[8px] md:text-[9px] uppercase tracking-[0.3em] font-semibold leading-relaxed">
           © {currentYear} ZipLink Premium • All Rights Reserved
         </p>
       </footer>
