@@ -93,48 +93,44 @@ const ShortenForm = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-3">
-      {/* Mobile-optimized interaction card */}
-      <motion.div 
+      {/* Interaction card */}
+      <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.8)] animate-fade-in"
       >
-        {/* Glow border background */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-indigo-500/30 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-        
         <div className="relative bg-[#090d22]/95 backdrop-blur-3xl border border-white/15 rounded-[23px] p-3 md:p-5 space-y-2.5">
-                    {/* Subtitle */}
+          {/* Subtitle */}
           <div className="text-center space-y-1 pb-1.5 border-b border-white/10">
-            <p className="text-white/80 text-sm md:text-base font-medium max-w-none leading-relaxed">
+            <p className="text-white/80 text-sm md:text-base font-medium leading-relaxed">
               Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
             </p>
           </div>
 
-          {/* Mobile-friendly form */}
-          <form 
-            onSubmit={handleSubmit}
-            className="space-y-1.5"
-          >
-            <motion.div 
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-1.5">
+            <motion.div
               animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}}
               transition={{ duration: 0.4 }}
               className={`flex flex-col md:flex-row gap-2 p-1.5 bg-white/[0.07] hover:bg-white/[0.09] focus-within:bg-white/[0.1] rounded-xl transition-all duration-300 ${
-                errorMsg                   ? 'border-red-500/60 focus-within:border-red-500' 
-                  : !isInputEmpty 
-                    ? 'border-white/20 focus-within:border-blue-500/70 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]' 
-                    : 'border-white/15 focus-within:border-blue-500/50'
+                errorMsg
+                  ? 'border-red-500/60 focus-within:border-red-500'
+                  : !isInputEmpty
+                  ? 'border-white/20 focus-within:border-blue-500/70 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                  : 'border-white/15 focus-within:border-blue-500/50'
               }`}
             >
               <div className="flex-1 flex items-center px-2 md:px-3 gap-2">
                 <AnimatePresence mode="wait">
                   {favicon ? (
-                    <motion.img 
+                    <motion.img
                       key="favicon"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
-                      src={favicon} 
-                      alt="favicon" 
+                      src={favicon}
+                      alt="favicon"
                       className="w-4 h-4 md:w-5 md:h-5 rounded bg-white/20 p-[2px] flex-shrink-0"
                       onError={() => setFavicon(null)}
                     />
@@ -145,7 +141,8 @@ const ShortenForm = () => {
                   )}
                 </AnimatePresence>
 
-                <input                   type="text"
+                <input
+                  type="text"
                   value={url}
                   onChange={(e) => {
                     setUrl(e.target.value);
@@ -156,12 +153,11 @@ const ShortenForm = () => {
                 />
               </div>
 
-              <button 
+              <button
                 type="submit"
                 disabled={loading}
                 className={`w-full md:w-auto px-4 py-2.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 relative overflow-hidden active:scale-[0.98] transform hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer ${
-                  isInputEmpty                     ? 'opacity-80 hover:opacity-100 cursor-pointer' 
-                    : 'hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer'
+                  isInputEmpty ? 'opacity-80 hover:opacity-100' : ''
                 }`}
               >
                 {loading ? (
@@ -175,7 +171,7 @@ const ShortenForm = () => {
               </button>
             </motion.div>
 
-            {/* Error messaging */}
+            {/* Error message */}
             <AnimatePresence>
               {errorMsg && (
                 <motion.p
@@ -190,7 +186,7 @@ const ShortenForm = () => {
             </AnimatePresence>
           </form>
 
-          {/* Mobile-optimized result card */}
+          {/* Result card */}
           <AnimatePresence mode="wait">
             {result && (
               <motion.div
@@ -199,35 +195,40 @@ const ShortenForm = () => {
                 exit={{ opacity: 0, scale: 0.98 }}
                 className="p-2.5 md:p-3 bg-white/[0.04] border border-white/15 rounded-2xl space-y-1.5"
               >
-                {/* Result Header */}
+                {/* Header */}
                 <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
                   <div className="flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
-                    <span className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">ZipLink Ready</span>
+                    <span className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">
+                      ZipLink Ready
+                    </span>
                   </div>
-                  {/* Click Counter */}
                   <div className="flex items-center gap-1 px-1 py-0.5 bg-white/5 border border-white/10 rounded-full text-[8px] md:text-[9px] text-white/70">
                     <BarChart3 className="w-3 h-3 text-blue-400" />
                     <span>{result.clicks} Clicks</span>
                   </div>
                 </div>
 
-                {/* URL Display */}
+                {/* URL & actions */}
                 <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between bg-black/40 p-2.5 rounded-xl border border-white/10 hover:border-blue-500/30 transition-all duration-300">
-                  <div className="text-center lg:text-left space-y-0.5 min-w-0 flex-1 max-w-[200px]">
-                    <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/50 block">Destination Alias</span>
-                    <a 
+                  {/* URL wrapper – flex‑shrink 1, min‑width 0, ellipsis */}
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/50 block mb-1">
+                      Destination Alias
+                    </span>
+                    <a
                       href={`/${result.shortCode}`}
-                      target="_blank" 
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="text-lg md:text-xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors duration-200 block truncate"
+                      className="block text-lg md:text-xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors duration-200 overflow-hidden whitespace-nowrap text-ellipsis"
                     >
                       {window.location.host}/<span className="text-blue-400">{result.shortCode}</span>
                     </a>
                   </div>
-                                    <div className="flex gap-2 w-full lg:w-auto">
-                    {/* Action Buttons */}
-                    <button 
+
+                  {/* Buttons – never shrink */}
+                  <div className="flex gap-2 w-full lg:w-auto flex-shrink-0">
+                    <button
                       onClick={copyToClipboard}
                       className="flex-1 lg:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 md:py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all text-xs font-bold uppercase tracking-wider active:scale-[0.98] transform hover:scale-[1.01] hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]"
                     >
@@ -244,9 +245,9 @@ const ShortenForm = () => {
                       )}
                     </button>
 
-                    <a 
+                    <a
                       href={`/${result.shortCode}`}
-                      target="_blank" 
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-center px-3 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-lg transition-all active:scale-[0.98]"
                     >
@@ -254,11 +255,9 @@ const ShortenForm = () => {
                     </a>
                   </div>
                 </div>
-
               </motion.div>
             )}
           </AnimatePresence>
-
         </div>
       </motion.div>
     </div>
