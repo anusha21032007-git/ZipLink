@@ -93,17 +93,17 @@ const ShortenForm = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-3">
-      {/* Glass‑like outer card */}
+      {/* Glass‑like outer container */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.8)] animate-fade-in"
       >
-        {/* Subtle gradient border */}
+        {/* Gradient border */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-indigo-500/30 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-        <div className="relative bg-[#090d22]/95 backdrop-blur-3xl rounded-[23px] p-3 md:p-5 space-y-2.5">
-          {/* Intro text – no extra border */}
-          <p className="text-center text-white/80 text-sm md:text-base font-medium leading-relaxed mb-2">
+        <div className="relative bg-[#090d22]/95 backdrop-blur-3xl rounded-[23px] p-3 md:p-5 space-y-3">
+          {/* Intro text */}
+          <p className="text-center text-white/80 text-sm md:text-base font-medium leading-relaxed">
             Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
           </p>
 
@@ -185,32 +185,32 @@ const ShortenForm = () => {
             </AnimatePresence>
           </form>
 
-          {/* Result card – simplified hierarchy */}
+          {/* Result section – flattened structure */}
           <AnimatePresence>
             {result && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.98 }}
-                className="p-3 bg-white/[0.04] rounded-2xl space-y-2"
+                className="space-y-2"
               >
-                {/* Header with subtle separator */}
-                <div className="flex items-center justify-between pb-2 border-b border-white/10">
+                {/* Header */}
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
                     <span className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">
                       ZipLink Ready
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 px-1 py-0.5 bg-white/5 border border-white/10 rounded-full text-[8px] md:text-[9px] text-white/70">
+                  <div className="flex items-center gap-1 px-1 py-0.5 bg-white/5 rounded-full text-[8px] md:text-[9px] text-white/70">
                     <BarChart3 className="w-3 h-3 text-blue-400" />
                     <span>{result.clicks} Clicks</span>
                   </div>
                 </div>
 
-                {/* URL + actions */}
-                <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between bg-black/30 p-2.5 rounded-xl">
-                  {/* URL – flex‑shrink with ellipsis */}
+                {/* URL and actions */}
+                <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between">
+                  {/* URL */}
                   <div className="flex-1 min-w-0 overflow-hidden">
                     <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/50 block mb-1">
                       Destination Alias
@@ -225,7 +225,7 @@ const ShortenForm = () => {
                     </a>
                   </div>
 
-                  {/* Action buttons – fixed size, never shrink */}
+                  {/* Buttons */}
                   <div className="flex gap-2 w-full lg:w-auto flex-shrink-0">
                     <button
                       onClick={copyToClipboard}
@@ -248,7 +248,7 @@ const ShortenForm = () => {
                       href={`/${result.shortCode}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center px-3 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-lg active:scale-[0.98]"
+                      className="flex items-center justify-center px-3 bg-white/10 hover:bg-white/20 text-white rounded-lg active:scale-[0.98]"
                     >
                       <ExternalLink className="w-4 h-4" />
                     </a>
