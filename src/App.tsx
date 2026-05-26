@@ -14,15 +14,15 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner
-        position="top-center"
+        position="bottom-right"
         toastOptions={{
           style: {
-            background: 'rgba(6, 8, 18, 0.85)',
-            backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(197, 160, 89, 0.2)',
-            color: '#fff',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
-            fontFamily: 'inherit',
+            background: "rgba(6, 8, 18, 0.85)",
+            backdropFilter: "blur(16px)",
+            border: "1px solid rgba(197, 160, 89, 0.2)",
+            color: "#fff",
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.5)",
+            fontFamily: "inherit",
           },
         }}
       />
