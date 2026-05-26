@@ -1,1 +1,293 @@
-"use client"; import React, { useState, useEffect } from 'react'; import { motion, AnimatePresence } from 'framer-motion'; import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink, Sparkles, BarChart3 } from 'lucide-react'; import { shortenUrl, ShortenedURL } from '@/services/api'; import { toast } from 'sonner'; const checkValidUrl = (string: string) => { if (!string) return false; try { let urlString = string; if (!/^https?:\\/\\//i.test(string)) { urlString = 'https://' + string; } const url = new URL(urlString); return url.hostname.includes('.') && url.hostname.split('.').pop()!.length >= 2; } catch (_) { return false; } }; const getFaviconUrl = (urlString: string) => { try { let formatted = urlString; if (!/^https?:\\/\\//i.test(urlString)) { formatted = 'https://' + urlString; } const parsed = new URL(formatted); return `https://www.google.com/s2/favicons?sz=64&domain=${parsed.hostname}`; } catch (_) { return null; } }; const ShortenForm = () => { const [url, setUrl] = useState(''); const [loading, setLoading] = useState(false); const [result, setResult] = useState<ShortenedURL | null>(null); const [copied, setCopied] = useState(false); const [errorMsg, setErrorMsg] = useState(''); const [shake, setShake] = useState(false); const [favicon, setFavicon] = useState<string | null>(null); useEffect(() => { if (checkValidUrl(url)) { setFavicon(getFaviconUrl(url)); setErrorMsg(''); } else { setFavicon(null); } }, [url]); const handleSubmit = async (e: React.FormEvent) => { e.preventDefault(); setErrorMsg(''); if (!url.trim()) return; if (!checkValidUrl(url)) { setErrorMsg('Please enter a valid destination URL (e.g., google.com)'); setShake(true); toast.error('Invalid URL specified'); setTimeout(() => setShake(false), 500); return; } setLoading(true); try { const data = await shortenUrl(url.startsWith('http') ? url : `https://${url}`); setResult(data); toast.success('ZipLink created successfully', { position: 'bottom-center', style: { background: 'rgba(0, 0, 0, 0.65)', color: '#fff', fontSize: '0.875rem', padding: '8px 12px', borderRadius: '999px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.2)', minWidth: '180px', textAlign: 'center', }, duration: 4000, }); } catch (error: any) { setErrorMsg(error.message || 'Error creating ZipLink'); setShake(true); toast.error('Failed to create ZipLink'); setTimeout(() => setShake(false), 500); } finally { setLoading(false); } }; const copyToClipboard = () => { if (!result) return; const shortUrl = `${window.location.origin}/${result.shortCode}`; navigator.clipboard.writeText(shortUrl); setCopied(true); toast.success('Copied Successfully', { position: 'bottom-center', style: { background: 'rgba(0, 0, 0, 0.65)', color: '#fff', fontSize: '0.875rem', padding: '8px 12px', borderRadius: '999px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.2)', minWidth: '180px', textAlign: 'center', }, duration: 3000, }); setTimeout(() => setCopied(false), 2000); }; const isInputEmpty = !url.trim(); return ( <div className="w-full max-w-2xl mx-auto space-y-3"> {/* Glass‑like outer container */} <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.8)] animate-fade-in" > {/* Gradient border */} <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-indigo-500/30 opacity-60 group-hover:opacity-80 transition-opacity duration-500" /> <div className="relative bg-[#090d22]/95 backdrop-blur-3xl rounded-[23px] p-3 md:p-5 space-y-3"> {/* Input form */} <form onSubmit={handleSubmit} className="space-y-1.5"> <motion.div animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}} transition={{ duration: 0.4 }} className={`flex flex-col md:flex-row gap-2 p-1.5 bg-white/[0.07] hover:bg-white/[0.09] focus-within:bg-white/[0.1] rounded-xl transition-all duration-300 ${ errorMsg ? 'border-red-500/60 focus-within:border-red-500' : !isInputEmpty ? 'border-white/20 focus-within:border-blue-500/70 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]' : 'border-white/15 focus-within:border-blue-500/50' }`} > <div className="flex-1 flex items-center px-2 md:px-3 gap-2"> <AnimatePresence mode="wait"> {favicon ? ( <motion.img key="favicon" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} src={favicon} alt="favicon" className="w-4 h-4 md:w-5 md:h-5 rounded bg-white/20 p-[2px] flex-shrink-0" onError={() => setFavicon(null)} /> ) : ( <motion.div key="globe" className="flex-shrink-0"> <Link2 className="text-white/60 w-4 h-4 md:w-5 md:h-5" /> </motion.div> )} </AnimatePresence> <input type="text" value={url} onChange={(e) => { setUrl(e.target.value); if (errorMsg) setErrorMsg(''); }} placeholder="Enter original link here..." className="w-full bg-transparent border-none outline-none text-white text-sm md:text-base placeholder:text-white/50 py-1.5 font-normal min-w-0" /> </div> <button type="submit" disabled={loading} className={`w-full md:w-auto px-4 py-2.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer ${ isInputEmpty ? 'opacity-80 hover:opacity-100' : '' }`} > {loading ? ( <Loader2 className="w-4 h-4 animate-spin" /> ) : ( <> <span className="uppercase tracking-widest text-[9px]">Create ZipLink</span> <ArrowRight className="w-3.5 h-3.5" /> </> )} </button> </motion.div> {/* Error message */} <AnimatePresence> {errorMsg && ( <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} className="text-red-400 text-xs font-medium pl-2" > {errorMsg} </motion.p> )} </AnimatePresence> </div> </motion-div> </div> ); }; export default ShortenForm;
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink, Sparkles, BarChart3 } from 'lucide-react';
+import { shortenUrl, ShortenedURL } from '@/services/api';
+import { toast } from 'sonner';
+
+const checkValidUrl = (string: string) => {
+  if (!string) return false;
+  try {
+    let urlString = string;
+    if (!/^https?:\/\//i.test(string)) {
+      urlString = 'https://' + string;
+    }
+    const url = new URL(urlString);
+    return url.hostname.includes('.') && url.hostname.split('.').pop()!.length >= 2;
+  } catch (_) {
+    return false;
+  }
+};
+
+const getFaviconUrl = (urlString: string) => {
+  try {
+    let formatted = urlString;
+    if (!/^https?:\/\//i.test(urlString)) {
+      formatted = 'https://' + urlString;
+    }
+    const parsed = new URL(formatted);
+    return `https://www.google.com/s2/favicons?sz=64&domain=${parsed.hostname}`;
+  } catch (_) {
+    return null;
+  }
+};
+
+const ShortenForm = () => {
+  const [url, setUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<ShortenedURL | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [shake, setShake] = useState(false);
+  const [favicon, setFavicon] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (checkValidUrl(url)) {
+      setFavicon(getFaviconUrl(url));
+      setErrorMsg('');
+    } else {
+      setFavicon(null);
+    }
+  }, [url]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    if (!url.trim()) return;
+
+    if (!checkValidUrl(url)) {
+      setErrorMsg('Please enter a valid destination URL (e.g., google.com)');
+      setShake(true);
+      toast.error('Invalid URL specified');
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const data = await shortenUrl(url.startsWith('http') ? url : `https://${url}`);
+      setResult(data);
+      toast.success('ZipLink created successfully', {
+        position: 'bottom-center',
+        style: {
+          background: 'rgba(0, 0, 0, 0.65)',
+          color: '#fff',
+          fontSize: '0.875rem',
+          padding: '8px 12px',
+          borderRadius: '999px',
+          border: 'none',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+          minWidth: '180px',
+          textAlign: 'center',
+        },
+        duration: 4000,
+      });
+    } catch (error: any) {
+      setErrorMsg(error.message || 'Error creating ZipLink');
+      setShake(true);
+      toast.error('Failed to create ZipLink');
+      setTimeout(() => setShake(false), 500);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const copyToClipboard = () => {
+    if (!result) return;
+    const shortUrl = `${window.location.origin}/${result.shortCode}`;
+    navigator.clipboard.writeText(shortUrl);
+    setCopied(true);
+    toast.success('Copied Successfully', {
+      position: 'bottom-center',
+      style: {
+        background: 'rgba(0, 0, 0, 0.65)',
+        color: '#fff',
+        fontSize: '0.875rem',
+        padding: '8px 12px',
+        borderRadius: '999px',
+        border: 'none',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+        minWidth: '180px',
+        textAlign: 'center',
+      },
+      duration: 3000,
+    });
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const isInputEmpty = !url.trim();
+
+  return (
+    <div className="w-full max-w-2xl mx-auto space-y-3">
+      {/* Glass‑like outer container */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative p-[1px] rounded-3xl overflow-hidden group shadow-[0_25px_60px_rgba(0,0,0,0.8)] animate-fade-in"
+      >
+        {/* Gradient border */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-indigo-500/30 opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+        <div className="relative bg-[#090d22]/95 backdrop-blur-3xl rounded-[23px] p-3 md:p-5 space-y-3">
+          {/* Intro text */}
+          <p className="text-center text-white/80 text-sm md:text-base font-medium leading-relaxed">
+            Transform long, messy URLs into clean, powerful smart links. Track clicks and share beautifully across the web.
+          </p>
+
+          {/* Input form */}
+          <form onSubmit={handleSubmit} className="space-y-1.5">
+            <motion.div
+              animate={shake ? { x: [-8, 8, -8, 8, 0] } : {}}
+              transition={{ duration: 0.4 }}
+              className={`flex flex-col md:flex-row gap-2 p-1.5 bg-white/[0.07] hover:bg-white/[0.09] focus-within:bg-white/[0.1] rounded-xl transition-all duration-300 ${
+                errorMsg
+                  ? 'border-red-500/60 focus-within:border-red-500'
+                  : !isInputEmpty
+                  ? 'border-white/20 focus-within:border-blue-500/70 focus-within:shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                  : 'border-white/15 focus-within:border-blue-500/50'
+              }`}
+            >
+              <div className="flex-1 flex items-center px-2 md:px-3 gap-2">
+                <AnimatePresence mode="wait">
+                  {favicon ? (
+                    <motion.img
+                      key="favicon"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      src={favicon}
+                      alt="favicon"
+                      className="w-4 h-4 md:w-5 md:h-5 rounded bg-white/20 p-[2px] flex-shrink-0"
+                      onError={() => setFavicon(null)}
+                    />
+                  ) : (
+                    <motion.div key="globe" className="flex-shrink-0">
+                      <Link2 className="text-white/60 w-4 h-4 md:w-5 md:h-5" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <input
+                  type="text"
+                  value={url}
+                  onChange={(e) => {
+                    setUrl(e.target.value);
+                    if (errorMsg) setErrorMsg('');
+                  }}
+                  placeholder="Enter original link here..."
+                  className="w-full bg-transparent border-none outline-none text-white text-sm md:text-base placeholder:text-white/50 py-1.5 font-normal min-w-0"
+                />
+              </div>
+
+              <button                type="submit"
+                disabled={loading}
+                className={`w-full md:w-auto px-4 py-2.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white text-xs font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 active:scale-[0.98] hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:brightness-110 cursor-pointer ${
+                  isInputEmpty ? 'opacity-80 hover:opacity-100' : ''
+                }`}
+              >
+                {loading ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <>
+                    <span className="uppercase tracking-widest text-[9px]">Create ZipLink</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </>
+                )}
+              </button>
+            </motion.div>
+
+            {/* Error message */}
+            <AnimatePresence>
+              {errorMsg && (
+                <motion.p
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  className="text-red-400 text-xs font-medium pl-2"
+                >
+                  {errorMsg}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </form>
+
+          {/* Result section – flattened structure */}
+          <AnimatePresence>
+            {result && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                className="space-y-2"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#C5A059] animate-pulse" />
+                    <span className="text-[8px] md:text-[9px] uppercase tracking-[0.2em] text-[#C5A059] font-bold">
+                      ZipLink Ready
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 px-1 py-0.5 bg-white/5 rounded-full text-[8px] md:text-[9px] text-white/70">
+                    <BarChart3 className="w-3 h-3 text-blue-400" />
+                    <span>{result.clicks} Clicks</span>
+                  </div>
+                </div>
+
+                {/* URL and actions */}
+                <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2 justify-between">
+                  {/* URL */}
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <span className="text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-white/50 block mb-1">
+                      Destination Alias
+                    </span>
+                    <a
+                      href={`/${result.shortCode}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-lg md:text-xl font-bold tracking-tight text-white hover:text-blue-400 transition-colors overflow-hidden whitespace-nowrap text-ellipsis"
+                    >
+                      {window.location.host}/<span className="text-blue-400">{result.shortCode}</span>
+                    </a>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex gap-2 w-full lg:w-auto flex-shrink-0">
+                    <button
+                      onClick={copyToClipboard}
+                      className="flex-1 lg:flex-initial flex items-center justify-center gap-2 px-3.5 py-2.5 md:py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold uppercase tracking-wider active:scale-[0.98] hover:scale-[1.01] hover:shadow-[0_0_15px_rgba(99,102,241,0.4)]"
+                    >
+                      {copied ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+
+                    <a
+                      href={`/${result.shortCode}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center px-3 bg-white/10 hover:bg-white/20 text-white rounded-lg active:scale-[0.98]"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default ShortenForm;
