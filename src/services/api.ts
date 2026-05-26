@@ -8,8 +8,15 @@ export interface ShortenedURL {
   createdAt: string;
 }
 
-// Mock database in memory for demo
-const mockLinks: ShortenedURL[] = [];
+// Persistent mock database using localStorage for demo
+const getStoredLinks = (): ShortenedURL[] => {
+  const stored = localStorage.getItem('ziplink_mock_db');
+  return stored ? JSON.parse(stored) : [];
+};
+
+const saveLinks = (links: ShortenedURL[]) => {
+  localStorage.setItem('ziplink_mock_db', JSON.stringify(links));
+};
 
 export const shortenUrl = async (url: string): Promise<ShortenedURL> => {
   // Simulate network delay
@@ -21,6 +28,8 @@ export const shortenUrl = async (url: string): Promise<ShortenedURL> => {
   }
 
   const shortCode = Math.random().toString(36).substring(2, 8);
+  const links = getStoredLinks();
+  
   const newLink: ShortenedURL = {
     id: Date.now().toString(),
     originalUrl: url,
@@ -29,18 +38,21 @@ export const shortenUrl = async (url: string): Promise<ShortenedURL> => {
     createdAt: new Date().toISOString(),
   };
 
-  mockLinks.unshift(newLink);
+  links.unshift(newLink);
+  saveLinks(links);
   return newLink;
 };
 
 export const getUrlByCode = async (code: string): Promise<ShortenedURL | null> => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 800));
-  const link = mockLinks.find(l => l.shortCode === code);
+  const links = getStoredLinks();
+  const linkIndex = links.findIndex(l => l.shortCode === code);
   
-  if (link) {
-    link.clicks += 1; // Increment clicks
-    return { ...link };
+  if (linkIndex !== -1) {
+    links[linkIndex].clicks += 1; // Increment clicks
+    saveLinks(links);
+    return { ...links[linkIndex] };
   }
   
   return null;
