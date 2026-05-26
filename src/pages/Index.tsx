@@ -5,100 +5,99 @@ import { motion } from 'framer-motion';
 import Background from '@/components/Background';
 import Navbar from '@/components/Navbar';
 import ShortenForm from '@/components/ShortenForm';
-import { MousePointerClick, Zap, ShieldCheck } from 'lucide-react';
+import { Shield, BarChart3, Globe2 } from 'lucide-react';
 
 const Index = () => {
   return (
-    <div className="min-h-screen text-white font-sans selection:bg-blue-500/30">
+    <div className="min-h-screen text-white font-sans selection:bg-[#C5A059]/30 bg-[#050505]">
       <Background />
       <Navbar />
       
-      <main className="container mx-auto px-6 pt-32 pb-20 relative z-10">
+      <main className="container mx-auto px-6 pt-48 pb-32 relative z-10">
         {/* Hero Section */}
-        <div className="text-center space-y-6 mb-20">
+        <div className="text-center space-y-8 mb-24">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[#C5A059]/5 border border-[#C5A059]/20 text-[#C5A059] text-[10px] uppercase tracking-[0.3em] font-bold"
           >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-            </span>
-            Premium URL Shortener
+            Established 2024 • Private Beta
           </motion.div>
           
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-6xl md:text-8xl font-serif font-medium tracking-tight leading-[0.9]"
           >
             Zip Your Links <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-              Instantly.
-            </span>
+            <span className="italic text-[#C5A059]">Instantly.</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-white/40 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-white/40 text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed"
           >
-            Transform long messy URLs into clean, smart, shareable links. 
-            Track every click with our advanced analytics dashboard.
+            The world's most sophisticated URL architecture. Transform your digital presence with elegant, high-conversion aliases.
           </motion.p>
         </div>
 
         {/* Shortener Form */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.4, duration: 1 }}
         >
           <ShortenForm />
         </motion.div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 max-w-5xl mx-auto">
+        {/* Intelligence Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-40 max-w-6xl mx-auto">
           {[
             {
-              icon: <Zap className="w-6 h-6 text-yellow-400" />,
-              title: "Lightning Fast",
-              desc: "Links generated in milliseconds, globally optimized for speed."
+              icon: <Globe2 className="w-5 h-5 text-[#C5A059]" />,
+              title: "Global Edge",
+              desc: "Instant redirection via our private high-speed luxury network."
             },
             {
-              icon: <MousePointerClick className="w-6 h-6 text-blue-400" />,
-              title: "Live Analytics",
-              desc: "Track clicks, referrers, and locations in real-time."
+              icon: <BarChart3 className="w-5 h-5 text-[#C5A059]" />,
+              title: "Deep Intel",
+              desc: "Sophisticated tracking that provides more than just raw numbers."
             },
             {
-              icon: <ShieldCheck className="w-6 h-6 text-purple-400" />,
-              title: "Secure Links",
-              desc: "HTTPS-only redirection with advanced fraud protection."
+              icon: <Shield className="w-5 h-5 text-[#C5A059]" />,
+              title: "Vault Secure",
+              desc: "Military-grade encryption for every link in your portfolio."
             }
           ].map((feature, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 + i * 0.1 }}
-              className="p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl hover:bg-white/10 transition-colors group"
+              transition={{ delay: 0.6 + i * 0.1 }}
+              className="group relative"
             >
-              <div className="mb-4 p-3 bg-white/5 rounded-2xl w-fit group-hover:scale-110 transition-transform">
+              <div className="mb-6 w-12 h-12 flex items-center justify-center bg-white/[0.03] border border-white/5 rounded-2xl group-hover:border-[#C5A059]/30 transition-colors">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-              <p className="text-white/40 leading-relaxed">{feature.desc}</p>
+              <h3 className="text-sm uppercase tracking-[0.2em] font-bold mb-3 text-white/90">{feature.title}</h3>
+              <p className="text-white/30 text-sm leading-relaxed font-light">{feature.desc}</p>
             </motion.div>
           ))}
         </div>
       </main>
 
-      <footer className="py-10 text-center text-white/20 text-sm">
-        <p>© 2024 ZipLink Premium. Built for the modern web.</p>
+      <footer className="py-20 border-t border-white/5 text-center">
+        <div className="container mx-auto px-6 flex flex-col items-center gap-8">
+          <div className="text-xl font-serif font-bold text-white/20 tracking-widest uppercase">
+            ZipLink Prestige
+          </div>
+          <p className="text-white/10 text-[10px] uppercase tracking-[0.4em]">
+            © 2024 • All Rights Reserved • Built for the 1%
+          </p>
+        </div>
       </footer>
     </div>
   );
