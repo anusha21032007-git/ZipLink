@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink, Sparkles, BarChart3, Clock, Trash2 } from 'lucide-react';
+import { Link2, Loader2, Copy, Check, ArrowRight, ExternalLink, Sparkles, BarChart3, Clock } from 'lucide-react';
 import { shortenUrl, getStoredLinks, ShortenedURL } from '@/services/api';
 import { toast } from 'sonner';
 
@@ -103,13 +103,6 @@ const ShortenForm = () => {
     setCopiedId(id);
     toast.success('Copied Successfully');
     setTimeout(() => setCopiedId(null), 2000);
-  };
-
-  const clearHistory = () => {
-    localStorage.removeItem('ziplink_mock_db');
-    setRecentLinks([]);
-    setResult(null);
-    toast.success('History cleared successfully');
   };
 
   const isInputEmpty = !url.trim();
@@ -298,19 +291,10 @@ const ShortenForm = () => {
           animate={{ opacity: 1, y: 0 }}
           className="relative bg-white/[0.02] border border-white/10 backdrop-blur-2xl rounded-2xl p-4 md:p-6 space-y-4"
         >
-          {/* Responsive Header for Dashboard */}
-          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 pb-3 border-b border-white/5">
-            <div className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-purple-400" />
-              <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-white/80">My Shortened Links</h3>
-            </div>
-            <button 
-              onClick={clearHistory}
-              className="w-full sm:w-auto justify-center text-[9px] uppercase tracking-wider text-red-400/70 hover:text-red-400 flex items-center gap-1.5 transition-colors border border-red-400/10 sm:border-none p-2 sm:p-0 rounded-lg bg-red-400/[0.02] sm:bg-transparent"
-            >
-              <Trash2 className="w-3.5 h-3.5" />
-              Clear History
-            </button>
+          {/* Responsive Header for Dashboard - Simplified to Remove Clear History */}
+          <div className="flex items-center gap-2 pb-3 border-b border-white/5">
+            <BarChart3 className="w-4 h-4 text-purple-400" />
+            <h3 className="text-xs uppercase tracking-[0.2em] font-bold text-white/80">My Shortened Links</h3>
           </div>
 
           <div className="space-y-3 max-h-[300px] overflow-y-auto pr-0.5">
